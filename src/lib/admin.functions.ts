@@ -75,7 +75,7 @@ export const getDashboard = createServerFn({ method: "GET" })
   });
 
 export const listTransactions = createServerFn({ method: "GET" })
-  .inputValidator((d: { status?: string; type?: string; search?: string } | undefined) => d ?? {})
+  .inputValidator((d: { status?: string | undefined; type?: string | undefined; search?: string | undefined } | undefined) => d ?? {})
   .middleware([requireSupabaseAuth])
   .handler(async ({ context, data }) => {
     const { assertAdmin, db, unwrap } = await import("./admin.server");
@@ -230,7 +230,7 @@ export const assignTransaction = createServerFn({ method: "POST" })
   });
 
 export const listUsers = createServerFn({ method: "GET" })
-  .inputValidator((d: { search?: string } | undefined) => d ?? {})
+  .inputValidator((d: { search?: string | undefined } | undefined) => d ?? {})
   .middleware([requireSupabaseAuth])
   .handler(async ({ context, data }) => {
     const { assertAdmin, db, unwrap } = await import("./admin.server");
