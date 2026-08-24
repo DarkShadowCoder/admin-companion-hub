@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminMomoRouteImport } from './routes/admin.momo'
 import { Route as AdminPartnersRouteImport } from './routes/admin.partners'
 import { Route as AdminWalletsRouteImport } from './routes/admin.wallets'
 import { Route as AdminTransactionsIndexRouteImport } from './routes/admin.transactions.index'
@@ -38,6 +39,11 @@ const LoginRoute = LoginRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMomoRoute = AdminMomoRouteImport.update({
+  id: '/momo',
+  path: '/momo',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminPartnersRoute = AdminPartnersRouteImport.update({
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/momo': typeof AdminMomoRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/wallets': typeof AdminWalletsRoute
   '/admin/': typeof AdminIndexRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/admin/momo': typeof AdminMomoRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/wallets': typeof AdminWalletsRoute
   '/admin': typeof AdminIndexRoute
@@ -99,6 +107,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/momo': typeof AdminMomoRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/wallets': typeof AdminWalletsRoute
   '/admin/': typeof AdminIndexRoute
@@ -113,6 +122,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/login'
+    | '/admin/momo'
     | '/admin/partners'
     | '/admin/wallets'
     | '/admin/'
@@ -124,6 +134,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/admin/momo'
     | '/admin/partners'
     | '/admin/wallets'
     | '/admin'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/login'
+    | '/admin/momo'
     | '/admin/partners'
     | '/admin/wallets'
     | '/admin/'
@@ -179,6 +191,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/momo': {
+      id: '/admin/momo'
+      path: '/momo'
+      fullPath: '/admin/momo'
+      preLoaderRoute: typeof AdminMomoRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/partners': {
@@ -227,6 +246,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminMomoRoute: typeof AdminMomoRoute
   AdminPartnersRoute: typeof AdminPartnersRoute
   AdminWalletsRoute: typeof AdminWalletsRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -237,6 +257,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminMomoRoute: AdminMomoRoute,
   AdminPartnersRoute: AdminPartnersRoute,
   AdminWalletsRoute: AdminWalletsRoute,
   AdminIndexRoute: AdminIndexRoute,
