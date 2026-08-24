@@ -133,7 +133,7 @@ export const getTransaction = createServerFn({ method: "GET" })
   });
 
 export const decideTransaction = createServerFn({ method: "POST" })
-  .inputValidator((d: { id: string; status: string; reason?: string; proofUrl?: string }) => d)
+  .inputValidator((d: { id: string; status: string; reason?: string | undefined; proofUrl?: string | undefined }) => d)
   .middleware([requireSupabaseAuth])
   .handler(async ({ context, data }) => {
     const { assertAdmin, db, logAction } = await import("./admin.server");
@@ -191,7 +191,7 @@ export const decideTransaction = createServerFn({ method: "POST" })
   });
 
 export const addExecutionProof = createServerFn({ method: "POST" })
-  .inputValidator((d: { id: string; fileUrl: string; description?: string }) => d)
+  .inputValidator((d: { id: string; fileUrl: string; description?: string | undefined }) => d)
   .middleware([requireSupabaseAuth])
   .handler(async ({ context, data }) => {
     const { assertAdmin, db } = await import("./admin.server");
@@ -338,7 +338,7 @@ export const listPartners = createServerFn({ method: "GET" })
 
 export const savePartner = createServerFn({ method: "POST" })
   .inputValidator(
-    (d: { id?: string; full_name: string; phone_number?: string; whatsapp_number?: string; active?: boolean; notes?: string }) =>
+    (d: { id?: string | undefined; full_name: string; phone_number?: string | undefined; whatsapp_number?: string | undefined; active?: boolean | undefined; notes?: string | undefined }) =>
       d,
   )
   .middleware([requireSupabaseAuth])
@@ -371,12 +371,12 @@ export const listMomo = createServerFn({ method: "GET" })
 export const saveMomo = createServerFn({ method: "POST" })
   .inputValidator(
     (d: {
-      id?: string;
+      id?: string | undefined;
       phone_number: string;
       holder_name: string;
-      min_amount?: number | null;
-      max_amount?: number | null;
-      active?: boolean;
+      min_amount?: number | null | undefined;
+      max_amount?: number | null | undefined;
+      active?: boolean | undefined;
     }) => d,
   )
   .middleware([requireSupabaseAuth])
@@ -418,7 +418,7 @@ export const listTariffs = createServerFn({ method: "GET" })
 export const saveTariff = createServerFn({ method: "POST" })
   .inputValidator(
     (d: {
-      id?: string;
+      id?: string | undefined;
       country_a: string;
       country_b: string;
       min_amount: number;
@@ -460,16 +460,16 @@ export const listSettlements = createServerFn({ method: "GET" })
 export const saveSettlement = createServerFn({ method: "POST" })
   .inputValidator(
     (d: {
-      id?: string;
+      id?: string | undefined;
       settlement_type: string;
       amount: number;
-      currency?: string;
-      status?: string;
-      external_reference?: string;
-      source_account_name?: string;
-      destination_account_name?: string;
-      notes?: string;
-      failure_reason?: string;
+      currency?: string | undefined;
+      status?: string | undefined;
+      external_reference?: string | undefined;
+      source_account_name?: string | undefined;
+      destination_account_name?: string | undefined;
+      notes?: string | undefined;
+      failure_reason?: string | undefined;
     }) => d,
   )
   .middleware([requireSupabaseAuth])
@@ -518,7 +518,7 @@ export const listBatches = createServerFn({ method: "GET" })
   });
 
 export const processBatch = createServerFn({ method: "POST" })
-  .inputValidator((d: { id: string; status: string; transfer_reference?: string }) => d)
+  .inputValidator((d: { id: string; status: string; transfer_reference?: string | undefined }) => d)
   .middleware([requireSupabaseAuth])
   .handler(async ({ context, data }) => {
     const { assertAdmin, db, logAction } = await import("./admin.server");
@@ -563,7 +563,7 @@ export const getKmerDiaspora = createServerFn({ method: "GET" })
   });
 
 export const moderateContent = createServerFn({ method: "POST" })
-  .inputValidator((d: { contentType: string; contentId: string; action: string; newStatus: string; reason?: string }) => d)
+  .inputValidator((d: { contentType: string; contentId: string; action: string; newStatus: string; reason?: string | undefined }) => d)
   .middleware([requireSupabaseAuth])
   .handler(async ({ context, data }) => {
     const { assertAdmin, db, logAction } = await import("./admin.server");
